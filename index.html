@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Noor 💖</title>
+
+  <style>
+    :root{
+      --bg1:#ffdee9;
+      --bg2:#b5fffc;
+      --card:#ffffffcc;
+      --ink:#2b2b2b;
+      --pink:#ff4d6d;
+      --shadow: 0 18px 60px rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(circle at top, var(--bg1), transparent 50%),
+        radial-gradient(circle at bottom, var(--bg2), transparent 55%),
+        linear-gradient(135deg, #fff, #fff);
+      color:var(--ink);
+      overflow:hidden;
+    }
+
+    /* floating hearts */
+    .hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.55;
+    }
+    .heart{
+      position:absolute;
+      font-size:18px;
+      animation: floatUp linear infinite;
+      transform: translateY(110vh);
+    }
+    @keyframes floatUp{
+      to { transform: translateY(-20vh); }
+    }
+
+    .wrap{
+      width:min(880px, 92vw);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+    }
+
+    @media (max-width: 820px){
+      .wrap{ grid-template-columns:1fr; }
+    }
+
+    .card{
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      border-radius:24px;
+      box-shadow: var(--shadow);
+      padding:22px;
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    p{ opacity:.9 }
+
+    .ballArea{
+      display:grid;
+      place-items:center;
+      gap:14px;
+      padding:18px 0;
+    }
+
+    .ball{
+      width:210px;
+      height:210px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(145deg, #111, #2d2d2d);
+      box-shadow: 0 22px 70px rgba(0,0,0,.25);
+    }
+
+    .ball button{
+      all:unset;
+      cursor:pointer;
+      width:150px;
+      height:150px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(145deg, #ff8fab, #ff4d6d);
+      box-shadow: 0 14px 30px rgba(255,77,109,.35);
+    }
+
+    .icon{
+      font-size:54px;
+    }
+
+    .shake{ animation: shake .6s ease-in-out }
+    @keyframes shake{
+      0%{transform:none}
+      25%{transform:translate(-6px,4px) rotate(-4deg)}
+      50%{transform:translate(6px,-3px) rotate(4deg)}
+      75%{transform:translate(-4px,3px) rotate(-3deg)}
+      100%{transform:none}
+    }
+
+    .screen{ display:grid; gap:12px }
+
+    .bubble{
+      background:#fff;
+      border-radius:18px;
+      padding:16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+
+    .label{
+      font-size:12px;
+      opacity:.6;
+      margin-bottom:6px;
+    }
+
+    .answer{
+      font-size:20px;
+      font-weight:600;
+      min-height:1.5em;
+    }
+
+    .valentineArea{
+      display:none;
+      gap:10px;
+      justify-content:center;
+    }
+
+    .valentineArea.show{ display:flex }
+
+    .btn{
+      border:none;
+      padding:10px 16px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    .ball-icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
+  pointer-events: none;
+}
+
+    .yes{ background:#111; color:#fff }
+    .no{ background:#fff; border:1px solid #ddd }
+
+    .no{ position:relative }
+  </style>
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <h1>Hey Noor 💖</h1>
+      <p>Tap the heart and let the Love 8-Ball reveal your destiny.</p>
+
+      <div class="ballArea">
+        <div class="ball" id="ball">
+          <button id="askBtn">
+            <img src="s.jpeg" alt="Heart" class="ball-icon">
+          </button>
+        </div>
+        <small>Click the heart ✨</small>
+      </div>
+    </div>
+
+    <div class="card screen">
+      <div class="bubble">
+        <div class="label">Prediction</div>
+        <div class="answer" id="answer">Tap the heart to begin…</div>
+      </div>
+
+      <div class="bubble valentineArea" id="valentineArea">
+        <button class="btn yes" id="yesBtn">Yes 💖</button>
+        <button class="btn no" id="noBtn">No 🙈</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // floating sunflowers 🌻
+    const flowers = document.getElementById("hearts");
+    const sunflower = "🌻";
+
+    for(let i = 0; i < 22; i++){
+    const f = document.createElement("div");
+    f.className = "heart"; // reuse same animation
+    f.textContent = sunflower;
+    f.style.left = Math.random() * 100 + "vw";
+    f.style.animationDuration = (10 + Math.random() * 10) + "s";
+    f.style.fontSize = (18 + Math.random() * 22) + "px";
+    f.style.opacity = (0.4 + Math.random() * 0.6).toFixed(2);
+    flowers.appendChild(f);
+    }
+
+
+  const predictions=[
+    "The vibes are perfect 💫",
+    "Signs point to love 💖",
+    "The universe smiles at you ✨",
+    "Romance level: 100%",
+    "Something cute is coming 💕"
+  ];
+
+  const ball=document.getElementById("ball");
+  const askBtn=document.getElementById("askBtn");
+  const answer=document.getElementById("answer");
+  const valentineArea=document.getElementById("valentineArea");
+  const yesBtn=document.getElementById("yesBtn");
+  const noBtn=document.getElementById("noBtn");
+
+  let clicks=0;
+
+  askBtn.onclick=()=>{
+    clicks++;
+    ball.classList.remove("shake");
+    void ball.offsetWidth;
+    ball.classList.add("shake");
+
+    setTimeout(()=>{
+      if(clicks>=4){
+        answer.textContent="Noor… will you be my Valentine? 💘";
+        valentineArea.classList.add("show");
+      }else{
+        answer.textContent=predictions[Math.floor(Math.random()*predictions.length)];
+      }
+    },600);
+  };
+
+  yesBtn.onclick=()=>{
+    answer.textContent="YAY!! 💖 Happy Valentine’s Day, Noor 🥰";
+    valentineArea.classList.remove("show");
+  };
+
+  noBtn.onmouseenter = () => {
+  const container = document.querySelector(".screen");
+  const rect = container.getBoundingClientRect();
+
+  const maxX = rect.width - noBtn.offsetWidth;
+  const maxY = rect.height - noBtn.offsetHeight;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.position = "absolute";
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
+};
+</script>
+</body>
+</html>
